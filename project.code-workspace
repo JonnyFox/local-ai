@@ -1,0 +1,464 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/__pycache__": true,
+			"**/*.pyc": true,
+		},
+		"editor.codeActionsOnSave": {
+			"source.fixAll.eslint": "explicit",
+			"source.fixAll": "explicit"
+		},
+		"workbench.editor.enablePreview": false,
+		"editor.minimap.enabled": false,
+		"autopep8.args": [
+			"--global-config=./server/.pycodestyle",
+		],
+		"[python]": {
+			"editor.defaultFormatter": "ms-python.black-formatter",
+			"editor.formatOnSave": true
+		},
+		"black-formatter.args": [
+			"--line-length=180",
+			"-S",
+			"--skip-string-normalization",
+		],
+		"[javascript]": {
+			"editor.defaultFormatter": "dbaeumer.vscode-eslint",
+			"editor.formatOnSave": true
+		},
+		"[vue]": {
+			"editor.defaultFormatter": "dbaeumer.vscode-eslint",
+			"editor.formatOnSave": true
+		},
+		"eslint.workingDirectories": [
+			{
+				"mode": "auto"
+			}
+		],
+		"workbench.colorCustomizations": {},
+		"cSpell.words": [
+			"composables",
+			"filterset",
+			"MPTT",
+			"odata",
+			"PARLER",
+			"RABBITMQ",
+			"viewset",
+			"viewsets"
+		],
+		"yaml.schemas": {
+			"kubernetes://schema/v1%40service": "file:///Users/jonnyfox/Code/maw/k8s/proxy.yaml"
+		},
+		"editor.tabSize": 2,
+		"editor.detectIndentation": true,
+	},
+	"extensions": {
+		"recommendations": [
+			"ms-azuretools.vscode-docker",
+			"mhutchie.git-graph",
+			"github.copilot",
+			"eamodio.gitlens",
+			"ms-python.isort",
+			"ms-python.python",
+			"ms-vscode-remote.remote-ssh",
+			"gruntfuggly.todo-tree",
+			"vue.volar",
+			"cweijan.vscode-redis-client",
+			"dbaeumer.vscode-eslint",
+			"ms-python.vscode-pylance",
+			"ms-python.black-formatter",
+			"streetsidesoftware.code-spell-checker",
+			"zoma.vscode-auto-open-workspace",
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Web - Debug",
+				"type": "pwa-chrome",
+				"request": "launch",
+				"url": "http://localhost:8080",
+				"webRoot": "${workspaceFolder:project}/web_server/web"
+			},
+			{
+				"name": "Web - Build",
+				"command": "pnpm start",
+				"cwd": "${workspaceFolder:project}/web_server/web",
+				"request": "launch",
+				"type": "node-terminal"
+			},
+			{
+				"name": "Web - Test",
+				"command": "xvfb-run npx playwright test",
+				"cwd": "${workspaceFolder:project}/web_server/web",
+				"request": "launch",
+				"type": "node-terminal"
+			},
+			{
+				"name": "Server - AMQP Notification Manager",
+				"type": "python",
+				"request": "launch",
+				"cwd": "${workspaceFolder:project}/web_server/server",
+				"program": "manage.py",
+				"args": [
+					"amqp_notification_manager",
+				],
+			},
+			{
+				"name": "Server - Django",
+				"type": "python",
+				"request": "launch",
+				"cwd": "${workspaceFolder:project}/web_server/server",
+				"program": "manage.py",
+				"args": [
+					"runserver",
+					"0.0.0.0:8000"
+				],
+				"env": {
+					"ALLOWED_HOSTS": "*",
+					"DEV": "True",
+					"DEBUG": "True",
+					"CACHE_ENABLED": "False",
+					"CONSOLE_LOG_LEVEL": "INFO",
+					"DJANGO_DB_LOG_LEVEL": "INFO",
+					"DJANGO_REQUEST_LOG_LEVEL": "INFO",
+					"DJANGO_ROOT_LOG_LEVEL": "INFO"
+				},
+				"django": true,
+				"justMyCode": false
+			},
+			{
+				"name": "Server - Daphne",
+				"type": "python",
+				"request": "launch",
+				"cwd": "${workspaceFolder:project}/web_server/server",
+				"program": "/project/server/.venv/bin/daphne",
+				"args": [
+					"maw.asgi:application",
+					"-b",
+					"0.0.0.0",
+					"-p",
+					"8002"
+				],
+				"env": {
+					"ALLOWED_HOSTS": "*",
+					"POSTGRES_DB": "maw_db",
+					"POSTGRES_HOST": "postgres",
+					"POSTGRES_PORT": "5432",
+					"DEV": "True",
+					"DEBUG": "True",
+					"CACHE_ENABLED": "False",
+					"CONSOLE_LOG_LEVEL": "INFO",
+					"DJANGO_DB_LOG_LEVEL": "INFO",
+					"DJANGO_REQUEST_LOG_LEVEL": "INFO",
+					"DJANGO_ROOT_LOG_LEVEL": "INFO"
+				},
+				"django": true,
+				"justMyCode": false
+			},
+			{
+				"name": "Services - Django",
+				"type": "python",
+				"request": "launch",
+				"cwd": "${workspaceFolder:project}/web_server/services",
+				"program": "manage.py",
+				"args": [
+					"runserver",
+					"0.0.0.0:8001"
+				],
+				"env": {
+					"POSTGRES_DB": "services_db",
+					"DEV": "True",
+					"DEBUG": "True",
+					"CACHE_ENABLED": "False",
+					"CONSOLE_LOG_LEVEL": "INFO",
+					"DJANGO_DB_LOG_LEVEL": "INFO",
+					"DJANGO_REQUEST_LOG_LEVEL": "INFO",
+					"CELERY_TASK_LOG_LEVEL": "INFO",
+					"TRANSMISSION_LOG_LEVEL_SWM": "INFO",
+					"TRANSMISSION_LOG_LEVEL_YAMAHA": "INFO",
+				},
+				"django": true,
+				"justMyCode": false
+			},
+			{
+				"name": "Services - Worker 1",
+				"type": "python",
+				"request": "launch",
+				"cwd": "${workspaceFolder:project}/web_server/services",
+				"module": "celery",
+				"console": "integratedTerminal",
+				"args": [
+					"-A",
+					"services",
+					"worker",
+					"-n",
+					"worker1@%h",
+					"--loglevel",
+					"INFO",
+					"--concurrency",
+					"1",
+				],
+				"env": {
+					"LOG_LEVEL": "INFO",
+					"POSTGRES_DB": "services_db",
+					"DEV": "True",
+					"DEBUG": "True",
+					"CACHE_ENABLED": "False",
+					"CONSOLE_LOG_LEVEL": "INFO",
+					"DJANGO_DB_LOG_LEVEL": "INFO",
+					"DJANGO_REQUEST_LOG_LEVEL": "INFO",
+					"CELERY_TASK_LOG_LEVEL": "INFO",
+					"TRANSMISSION_LOG_LEVEL_SWM": "DEBUG",
+					"TRANSMISSION_LOG_LEVEL_YAMAHA": "DEBUG",
+					"TRANSMISSION_LOG_LEVEL_DUCATI": "DEBUG",
+				},
+				"justMyCode": false
+			},
+			{
+				"name": "Services - Worker 2",
+				"type": "python",
+				"request": "launch",
+				"cwd": "${workspaceFolder:project}/web_server/services",
+				"module": "celery",
+				"console": "integratedTerminal",
+				"args": [
+					"-A",
+					"services",
+					"worker",
+					"-n",
+					"worker2@%h",
+					"-l",
+					"info",
+					"--concurrency",
+					"1",
+				],
+				"env": {
+					"LOG_LEVEL": "INFO",
+					"POSTGRES_DB": "services_db",
+					"DEV": "True",
+					"DEBUG": "True",
+					"CACHE_ENABLED": "False",
+					"CONSOLE_LOG_LEVEL": "INFO",
+					"DJANGO_DB_LOG_LEVEL": "INFO",
+					"DJANGO_REQUEST_LOG_LEVEL": "INFO",
+					"CELERY_TASK_LOG_LEVEL": "INFO",
+					"TRANSMISSION_LOG_LEVEL_SWM": "DEBUG",
+					"TRANSMISSION_LOG_LEVEL_YAMAHA": "DEBUG",
+					"TRANSMISSION_LOG_LEVEL_DUCATI": "DEBUG",
+				},
+				"justMyCode": false
+			},
+			{
+				"name": "Server - Debug",
+				"type": "python",
+				"request": "launch",
+				"program": "/usr/local/bin/gunicorn",
+				"console": "integratedTerminal",
+				"cwd": "${workspaceFolder:project}/web_server/server",
+				"args": [
+					"server.wsgi:application",
+					"-c",
+					"${workspaceFolder:project}/web_server/server/gunicorn.conf.py",
+				],
+				"django": true,
+				"justMyCode": true
+			},
+			{
+				"name": "Server - Scheduler",
+				"type": "python",
+				"request": "launch",
+				"program": "/usr/local/bin/gunicorn",
+				"console": "integratedTerminal",
+				"cwd": "${workspaceFolder:project}/web_server/server",
+				"args": [
+					"maw.wsgi",
+					"-b 0.0.0.0:8002",
+					"--preload"
+				],
+				"env": {
+					"IS_SCHEDULER": "True",
+				},
+				"django": true,
+				"justMyCode": false
+			},
+			{
+				"name": "Server - Migrate",
+				"type": "python",
+				"request": "launch",
+				"cwd": "${workspaceFolder:project}/web_server/server",
+				"program": "manage.py",
+				"args": [
+					"migrate"
+				],
+				"env": {
+					"POSTGRES_HOST": "postgres",
+					"POSTGRES_PORT": "5432",
+					"POSTGRES_DB": "maw_db",
+					"DJANGO_DB_LOG_LEVEL": "ERROR", // Set the DEBUG level of BE ['DEBUG', 'ERROR']
+					"DEV": "True",
+					"DEBUG": "True",
+				},
+				"django": true
+			},
+			{
+				"name": "Server - Make migrations",
+				"type": "python",
+				"request": "launch",
+				"cwd": "${workspaceFolder:project}/web_server/server",
+				"program": "manage.py",
+				"args": [
+					"makemigrations"
+				],
+				"env": {
+					"DJANGO_DB_LOG_LEVEL": "ERROR", // Set the DEBUG level of BE ['DEBUG', 'ERROR']
+					"DB_HOST": "localhost"
+				},
+				"django": true
+			},
+			{
+				"name": "Server - Make EMPTY Migrations",
+				"type": "python",
+				"request": "launch",
+				"cwd": "${workspaceFolder:project}/web_server/server",
+				"program": "manage.py",
+				"args": [
+					"makemigrations",
+					"--empty"
+				],
+				"env": {
+					"DJANGO_DB_LOG_LEVEL": "ERROR", // Set the DEBUG level of BE ['DEBUG', 'ERROR']
+					"DB_HOST": "localhost"
+				},
+				"django": true
+			},
+			{
+				"name": "Server - Test",
+				"type": "python",
+				"request": "launch",
+				"cwd": "${workspaceFolder:project}/web_server/server",
+				"program": "manage.py",
+				"args": [
+					"test",
+					"--noinput",
+					"--parallel"
+				],
+				"django": true
+			},
+			{
+				"name": "Server - Test keep db",
+				"type": "python",
+				"request": "launch",
+				"program": "manage.py",
+				"cwd": "${workspaceFolder:project}/web_server/server",
+				"console": "integratedTerminal",
+				"env": {
+					"DJANGO_DB_LOG_LEVEL": "ERROR", // Set the DEBUG level of BE ['DEBUG', 'ERROR']
+					"DB_HOST": "localhost"
+				},
+				"args": [
+					"test",
+					"--keepdb"
+				],
+				"django": true
+			},
+			{
+				"name": "Server - Test SPECIFIC keep db",
+				"type": "python",
+				"request": "launch",
+				"program": "manage.py",
+				"cwd": "${workspaceFolder:project}/web_server/server",
+				"console": "integratedTerminal",
+				"env": {
+					"DJANGO_DB_LOG_LEVEL": "ERROR", // Set the DEBUG level of BE ['DEBUG', 'ERROR']
+					"DB_HOST": "localhost"
+				},
+				"args": [
+					"test",
+					"connector_data_collection_point.tests.DataCollectorLoadTestCase",
+					"--keepdb",
+					"--parallel"
+				],
+				"django": true
+			},
+			{
+				"name": "Python Debugger: Current File",
+				"type": "debugpy",
+				"request": "launch",
+				"program": "${file}",
+				"console": "integratedTerminal"
+			}
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "Server - Django + Notification Manager",
+				"dependsOn": [
+					"Server - Debug",
+					"Server Command - Debug"
+				]
+			},
+			{
+				"label": "Daphne",
+				"type": "shell",
+				"command": "/usr/local/bin/daphne sf.asgi:application -b 0.0.0.0 -p 8002",
+				"options": {
+					"cwd": "${workspaceFolder:project}/web_server/server"
+				},
+				"problemMatcher": []
+			},
+			{
+				"label": "Update Translations",
+				"type": "shell",
+				"command": "python manage.py update_translations",
+				"options": {
+					"cwd": "${workspaceFolder:project}/web_server/server"
+				},
+				"dependsOn": [
+					"Create Translations"
+				]
+			},
+			{
+				"label": "Apply Migrations",
+				"type": "shell",
+				"command": "python manage.py migrate",
+				"options": {
+					"cwd": "${workspaceFolder:project}/web_server/server"
+				},
+				"dependsOn": [
+					"Create Migrations"
+				]
+			},
+			{
+				"label": "Create Migrations",
+				"type": "shell",
+				"command": "python manage.py makemigrations",
+				"options": {
+					"cwd": "${workspaceFolder:project}/web_server/server"
+				}
+			},
+			{
+				"label": "Prepare for PR",
+				"type": "shell",
+				"command": "git pull",
+				"dependsOn": [
+					"Apply Migrations",
+					"Update Translations"
+				]
+			}
+		]
+	},
+}

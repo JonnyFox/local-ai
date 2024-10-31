@@ -1,0 +1,59 @@
+[MASTER]
+persistent=yes
+load-plugins=pylint_django
+suggestion-mode=no
+limit-inference-results=100
+const-naming-style=UPPER_CASE
+class-naming-style=PascalCase
+include-naming-hint=yes
+function-naming-style=snake_case
+method-naming-style=snake_case
+module-naming-style=snake_case
+ignore-paths=.*/migrations/*
+
+[MESSAGES CONTROL]
+# C0111 Missing docstring
+# I0011 Warning locally suppressed using disable-msg
+# W0142 Used * or * magic* Used when a function or method is called using *args or **kwargs to dispatch arguments.
+# W0212 Access to a protected member %s of a client class
+# W0232 Class has no __init__ method Used when a class has no __init__ method, neither its parent classes.
+# W0613 Unused argument %r Used when a function or method argument is not used.
+# W0702 No exception's type specified Used when an except clause doesn't specify exceptions type to catch.
+# R0201 Method could be a function
+# C0103 Invalid module name
+# R0901 Used when class has too many parent classes, try to reduce this to get a simpler (and so easier to use) class.
+disable=C0111,I0011,W0142,W0212,W0232,W0613,W0702,R0201,C0103,R0901,django-not-configured
+
+[REPORTS]
+msg-template={path}:{line}: [{msg_id}({symbol}), {obj}] {msg}
+
+[BASIC]
+no-docstring-rgx=__.*__|_.*
+class-rgx=[A-Z_][a-zA-Z0-9_]+$
+function-rgx=[a-zA_][a-zA-Z0-9_]{2,70}$
+method-rgx=[a-z_][a-zA-Z0-9_]{2,70}$
+const-rgx=(([A-Z_][A-Z0-9_]*)|([a-z_][a-z0-9_]*)|(__.*__)|register|urlpatterns)$
+good-names=_,i,j,k,e,qs,pk,setUp,tearDown
+
+[SIMILARITIES]
+min-similarity-lines=6
+ignore-comments=yes
+ignore-docstrings=yes
+
+[MISCELLANEOUS]
+notes=FIXME,XXX,TODO
+
+[FORMAT]
+max-line-length=100
+max-module-lines=500
+
+[DESIGN]
+max-args=10
+max-locals=15
+max-returns=6
+max-branches=12
+max-statements=50
+max-parents=7
+max-attributes=7
+min-public-methods=0
+max-public-methods=50

@@ -1,0 +1,4 @@
+pypdf
+PyMuPDF
+langchain
+chromadb # Vector storage
