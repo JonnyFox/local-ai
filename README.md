@@ -1,5 +1,3 @@
-# Project Name
-
 ## Overview
 This project includes various scripts and configurations for setting up and running a chatbot application using Docker, Elasticsearch, and other tools.
 
